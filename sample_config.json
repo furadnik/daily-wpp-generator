@@ -1,0 +1,24 @@
+{
+	"background": {
+		"images": {
+			"color": ["#4287f5"],
+			"file": ["/home/tmq/tmp/290252495_140553258578048_3782308976474652378_n.jpg"]
+		},
+		"filter_values": {
+			"min": 0,
+			"max": 50
+		}
+	},
+	"foreground": {
+		"images": {
+			"file": ["/home/tmq/tmp/6-66153_whatsapp-icon-white-png-transparent-png.png"]
+		},
+		"filter_values": {
+			"min": 0,
+			"max": 50
+		}
+	},
+	"layers": ["background", "foreground"],
+	"img_types": ["color", "file"],
+	"city": "prague"
+}
