@@ -21,8 +21,8 @@ class WallpaperGenerator:
             self._layers.append(WallpaperLayer(layer_config, self._city, self._get_index))
 
     def generate_wallpaper(self, output_path: str):
-        image = self._layers[0].get_layer_final()
-        for layer in self._layers[1:]:
+        image = ColorIF("#000000").get_image()
+        for layer in self._layers:
             new_layer = layer.get_layer_final()
             image.paste(new_layer, get_image_placement(image, new_layer), mask=new_layer)
 

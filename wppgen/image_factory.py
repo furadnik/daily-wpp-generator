@@ -12,9 +12,8 @@ class ImageFactory(ABC):
 
     def get_enhanced_image(self, brightness_factor: float):
         image = self.get_image()
-        if image.mode == "RGBA":
-            return image.putalpha(int(255*brightness_factor))
-        return ImageEnhance.Brightness(self.get_image()).enhance(brightness_factor)
+        return image.putalpha(int(255*brightness_factor))
+        # return ImageEnhance.Brightness(self.get_image()).enhance(brightness_factor)
 
 
 class FileIF(ImageFactory):
