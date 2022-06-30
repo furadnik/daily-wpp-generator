@@ -24,9 +24,15 @@ class WallpaperGenerator:
         image = self._layers[0].get_layer_final()
         for layer in self._layers[1:]:
             new_layer = layer.get_layer_final()
-            image.paste(new_layer, mask=new_layer)
+            image.paste(new_layer, get_image_placement(image, new_layer), mask=new_layer)
 
         image.save(output_path)
+
+def get_image_placement(bottom, top):
+    def calculate(bot, top):
+        return (bot-top)//2
+
+    return calculate(bottom.width, top.width), calculate(bottom.height, top.height)
 
 
 class WallpaperLayer(object):
