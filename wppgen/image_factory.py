@@ -2,15 +2,18 @@ from abc import ABC, abstractmethod
 from typing import Protocol
 from PIL import Image, ImageEnhance
 
-size = (1920, 1080)
+size = (3840, 2160)
 
 class ImageFactory(ABC):
 
     @abstractmethod
-    def get_image(self):
+    def get_image(self) -> Image:
         pass
 
     def get_enhanced_image(self, brightness_factor: float):
+        image = self.get_image()
+        if image.mode == "RGBA":
+            return image.putalpha(int(255*brightness_factor))
         return ImageEnhance.Brightness(self.get_image()).enhance(brightness_factor)
 
 
