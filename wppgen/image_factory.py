@@ -12,7 +12,8 @@ class ImageFactory(ABC):
 
     def get_enhanced_image(self, brightness_factor: float):
         image = self.get_image()
-        return image.putalpha(int(255*brightness_factor))
+        image.putalpha(int(255*brightness_factor))
+        return image
         # return ImageEnhance.Brightness(self.get_image()).enhance(brightness_factor)
 
 
