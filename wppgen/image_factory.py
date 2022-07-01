@@ -7,10 +7,16 @@ size = (3840, 2160)
 def add_alpha(image: Image, alpha_factor: float):
     image = image.convert("RGBA")
     data = image.getdata()
+    new_data = []
     for x in data:
-        x[3] = int(x[3]*alpha_factor)
+        new_data.append(
+                x[0],
+                x[1],
+                x[2],
+                int(x[3]*alpha_factor)
+                )
 
-    image.putdata(data)
+    image.putdata(new_data)
     return image
 
 
