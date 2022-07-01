@@ -9,12 +9,12 @@ def add_alpha(image: Image, alpha_factor: float):
     data = image.getdata()
     new_data = []
     for x in data:
-        new_data.append(
+        new_data.append((
                 x[0],
                 x[1],
                 x[2],
                 int(x[3]*alpha_factor)
-                )
+                ))
 
     image.putdata(new_data)
     return image
