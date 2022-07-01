@@ -4,6 +4,16 @@ from PIL import Image, ImageEnhance
 
 size = (3840, 2160)
 
+def add_alpha(image: Image, alpha_factor: float):
+    image = image.convert("RGBA")
+    data = image.getdata()
+    for x in data:
+        x[3] = int(x[3]*alpha_factor)
+
+    image.putdata(data)
+    return image
+
+
 class ImageFactory(ABC):
 
     @abstractmethod
@@ -12,8 +22,7 @@ class ImageFactory(ABC):
 
     def get_enhanced_image(self, brightness_factor: float):
         image = self.get_image()
-        image.putalpha(int(255*brightness_factor))
-        return image
+        return add_alpha(image, brightness_factor)
         # return ImageEnhance.Brightness(self.get_image()).enhance(brightness_factor)
 
 
