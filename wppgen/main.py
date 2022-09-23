@@ -1,12 +1,15 @@
-from .image_factory import FileIF, ColorIF, ImageFactory
-from .decider import get_index
+from typing import Optional
+
 from .config import Config, FileConfig
+from .decider import get_index
 from .filter import Filter
+from .image_factory import ColorIF, FileIF, ImageFactory
 
 img_types = {
     "color": ColorIF,
     "file": FileIF
-    }
+}
+
 
 class WallpaperGenerator:
 
@@ -16,9 +19,12 @@ class WallpaperGenerator:
         self._get_index = get_index
         self._layers = []
 
+        self.color: Optional[str] = None
         for layer in layers:
             layer_config = config.get_key(layer)
-            self._layers.append(WallpaperLayer(layer_config, self._city, self._get_index))
+            layer_obj = WallpaperLayer(layer_config, self._city, self._get_index)
+            self._layers.append(layer_obj)
+            self.color = self.color or layer_obj.color
 
     def generate_wallpaper(self, output_path: str):
         image = ColorIF("#000000").get_image()
@@ -28,14 +34,15 @@ class WallpaperGenerator:
 
         image.save(output_path)
 
+
 def get_image_placement(bottom, top):
     def calculate(bot, top):
-        return (bot-top)//2
+        return (bot - top) // 2
 
     return calculate(bottom.width, top.width), calculate(bottom.height, top.height)
 
 
-class WallpaperLayer(object):
+class WallpaperLayer:
 
     """Docstring for WallpaperPart. """
 
@@ -50,6 +57,7 @@ class WallpaperLayer(object):
         self._config = config
         self._city = city
         self._get_index = get_index
+        self.color = None
 
     def generate_factories(self):
         factories = []
@@ -66,12 +74,14 @@ class WallpaperLayer(object):
 
     def get_layer_final(self):
         factory = self.get_factory()
+        self.color = factory.color
         filter = Filter(self._city, **self._config["filter_values"])
         image = factory.get_enhanced_image(filter.compute_filter_value())
         return image
-        
-def get_wallpaper(config_path, output_path):
-    config = FileConfig(config_path)
-    WallpaperGenerator(config, get_index).generate_wallpaper(output_path)
-        
 
+
+def get_wallpaper(config_path, output_path) -> Optional[str]:
+    config = FileConfig(config_path)
+    wg = WallpaperGenerator(config, get_index)
+    wg.generate_wallpaper(output_path)
+    return wg.color

@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Protocol
-from PIL import Image, ImageEnhance
+from typing import Optional
+
+from PIL import Image
 
 size = (3840, 2160)
+
 
 def add_alpha(image: Image, alpha_factor: float):
     image = image.convert("RGBA")
@@ -10,17 +12,21 @@ def add_alpha(image: Image, alpha_factor: float):
     new_data = []
     for x in data:
         new_data.append((
-                x[0],
-                x[1],
-                x[2],
-                int(x[3]*alpha_factor)
-                ))
+            x[0],
+            x[1],
+            x[2],
+            int(x[3] * alpha_factor)
+        ))
 
     image.putdata(new_data)
     return image
 
 
 class ImageFactory(ABC):
+
+    @property
+    def color(self) -> Optional[str]:
+        return None
 
     @abstractmethod
     def get_image(self) -> Image:
@@ -43,15 +49,19 @@ class FileIF(ImageFactory):
 
         """
         self._path = path
-    
+
     def get_image(self):
         with Image.open(self._path) as f:
             f.load()
         return f
 
-class ColorIF(ImageFactory):
 
+class ColorIF(ImageFactory):
     """Gets the image from a file"""
+
+    @property
+    def color(self) -> Optional[str]:
+        return self._color
 
     def __init__(self, color_hex: str):
         """
@@ -63,7 +73,6 @@ class ColorIF(ImageFactory):
 
         self._color = color_hex
         self._size = size
-    
+
     def get_image(self):
         return Image.new("RGB", self._size, self._color)
-
