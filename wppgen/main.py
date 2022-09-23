@@ -19,12 +19,19 @@ class WallpaperGenerator:
         self._get_index = get_index
         self._layers = []
 
-        self.color: Optional[str] = None
         for layer in layers:
             layer_config = config.get_key(layer)
             layer_obj = WallpaperLayer(layer_config, self._city, self._get_index)
             self._layers.append(layer_obj)
-            self.color = self.color or layer_obj.color
+
+    @property
+    def color(self) -> Optional[str]:
+        """Generate color from layers."""
+        for layer in self._layers:
+            if layer.color:
+                return layer.color
+
+        return None
 
     def generate_wallpaper(self, output_path: str):
         image = ColorIF("#000000").get_image()
