@@ -3,10 +3,11 @@ from typing import Optional
 from .config import Config, FileConfig
 from .decider import get_index
 from .filter import Filter
-from .image_factory import ColorIF, FileIF, ImageFactory
+from .image_factory import ColorIF, FileIF, HueIF, ImageFactory
 
 img_types = {
     "color": ColorIF,
+    "hue": HueIF,
     "file": FileIF
 }
 

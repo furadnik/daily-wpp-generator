@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
+from datetime import datetime
+import colorsys
 
 from PIL import Image
 
@@ -76,3 +78,41 @@ class ColorIF(ImageFactory):
 
     def get_image(self):
         return Image.new("RGB", self._size, self._color)
+
+
+class HueIF(ImageFactory):
+    """Gets the image from a hue."""
+
+    @property
+    def color(self) -> Optional[str]:
+        t = datetime.today()
+        hue = (int(t.strftime("%j")) - 1 + (t.hour + (t.minute + t.second / 60) / 60) / 24) / 365
+        print(hue)
+        hue = (6 - hue + 0.6)
+        while hue > 1:
+            hue -= 1
+        r, g, b = colorsys.hsv_to_rgb(hue, 1, self._color)
+        return "#" + self.i_to_h(r) + self.i_to_h(g)  + self.i_to_h(b)
+
+    def i_to_h(self, i: float) -> None:
+        h = hex(int(i * 255))
+        print(h)
+        h = "00" + h[2:]
+        return h[-2:]
+
+    def __init__(self, color_value: float):
+        """
+
+        :path: TODO
+
+        """
+        ImageFactory.__init__(self)
+
+        self._color = color_value
+        self._size = size
+
+    def get_image(self):
+        return Image.new("RGB", self._size, self.color)
+
+
+print(HueIF(.69).color)
