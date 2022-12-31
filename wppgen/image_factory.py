@@ -87,7 +87,6 @@ class HueIF(ImageFactory):
     def color(self) -> Optional[str]:
         t = datetime.today()
         hue = (int(t.strftime("%j")) - 1 + (t.hour + (t.minute + t.second / 60) / 60) / 24) / 365
-        print(hue)
         hue = (6 - hue + 0.6)
         while hue > 1:
             hue -= 1
@@ -96,7 +95,6 @@ class HueIF(ImageFactory):
 
     def i_to_h(self, i: float) -> None:
         h = hex(int(i * 255))
-        print(h)
         h = "00" + h[2:]
         return h[-2:]
 
@@ -113,6 +111,3 @@ class HueIF(ImageFactory):
 
     def get_image(self):
         return Image.new("RGB", self._size, self.color)
-
-
-print(HueIF(.69).color)
