@@ -1,8 +1,9 @@
-astral==2.2
-build==0.8.0
-packaging==21.3
-pep517==0.12.0
-Pillow==9.1.1
-pyparsing==3.0.9
-pytz==2022.1
-tomli==2.0.1
+astral
+build
+packaging
+pep517
+Pillow
+pyparsing
+pytz
+tomli
+numpy
