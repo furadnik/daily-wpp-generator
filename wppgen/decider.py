@@ -7,4 +7,4 @@ def get_seed():
 
 
 def get_index(number_of_items: int):
-    return get_seed().randrange(number_of_items)
+    return get_seed().randint(number_of_items)
