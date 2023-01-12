@@ -3,7 +3,7 @@ import datetime
 
 
 def get_seed():
-    return numpy.random.RandomState(datetime.date.today().isoformat())
+    return numpy.random.RandomState(hash(datetime.date.today().isoformat()) % 10**9)
 
 
 def get_index(number_of_items: int):
