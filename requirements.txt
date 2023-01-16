@@ -7,3 +7,4 @@ pyparsing
 pytz
 tomli
 numpy
+-e git+https://github.com/furadnik/yearly-hue#egg=yearly_hue

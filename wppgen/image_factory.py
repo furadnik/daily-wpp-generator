@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from datetime import datetime
-import colorsys
 
 from PIL import Image
+from yearly_hue import get_hue
 
 size = (3840, 2160)
 
@@ -85,18 +84,7 @@ class HueIF(ImageFactory):
 
     @property
     def color(self) -> Optional[str]:
-        t = datetime.today()
-        hue = (int(t.strftime("%j")) - 1 + (t.hour + (t.minute + t.second / 60) / 60) / 24) / 365
-        hue = (6 - hue + 0.6)
-        while hue > 1:
-            hue -= 1
-        r, g, b = colorsys.hsv_to_rgb(hue, 1, self._color)
-        return "#" + self.i_to_h(r) + self.i_to_h(g)  + self.i_to_h(b)
-
-    def i_to_h(self, i: float) -> None:
-        h = hex(int(i * 255))
-        h = "00" + h[2:]
-        return h[-2:]
+        return get_hue(self._color)
 
     def __init__(self, color_value: float):
         """
@@ -111,3 +99,7 @@ class HueIF(ImageFactory):
 
     def get_image(self):
         return Image.new("RGB", self._size, self.color)
+
+
+if __name__ == '__main__':
+    print(HueIF(1).color)
