@@ -7,8 +7,11 @@ CITY_MAP = {
 
 
 def city_fetch(city_name: str):
-    city_name = CITY_MAP.get(city_name, city_name)
-    return lookup(city_name, database()).observer
+    try:
+        return lookup(city_name, database()).observer
+    except Exception:
+        city_name = CITY_MAP.get(city_name, city_name)
+        return lookup(city_name, database()).observer
 
 
 class Filter():
