@@ -1,9 +1,15 @@
-from astral.sun import elevation
 from astral.geocoder import database, lookup
-from .config import Config
+from astral.sun import elevation
+
+CITY_MAP = {
+    "Auckland": "Wellington"
+}
+
 
 def city_fetch(city_name: str):
+    city_name = CITY_MAP.get(city_name, city_name)
     return lookup(city_name, database()).observer
+
 
 class Filter():
 
